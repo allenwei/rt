@@ -1,0 +1,37 @@
+#!/usr/bin/env ruby 
+
+$LOAD_PATH.unshift(File.join("./test"))
+
+require File.join("rt.rb")
+
+ARGV.each do |f|
+  if f =~ /\*/ 
+    Dir.glob(f) do |test_file|
+    load test_file
+    end
+  elsif f =~ /(.*):(\d+)$/ 
+    file_name = $1
+    line_num = $2
+    line = `sed -n "#{line_num}p" #{file_name}` 
+    test_name = nil
+    %w[UnitTest ActiveSupportTestCase Shoulda].each do |matcher|
+      klass = eval("Rt::Matchers::#{matcher}") 
+      break if test_name = klass.test_name(line) 
+    end
+    if test_name
+      ARGV << "--name=/#{test_name}/"
+      load file_name
+    else 
+      STDERR.puts "Can not find test in file #{file_name} line #{line_num}"
+      exit 1
+    end
+  elsif File.directory?(f)  
+    Dir.glob("**/*.rb") do |test_file|
+      load test_file
+    end
+  elsif File.exist?(f)
+    load f
+  end
+
+end
+
