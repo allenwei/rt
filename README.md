@@ -28,6 +28,7 @@ Support specify line number:
 
   `rt test_file.rb:5` 
 
+Only support "Test::Unit::TestCase", "ActiveSupport::TestCase" and "Shoulda"
 
 Load Path
 --------
