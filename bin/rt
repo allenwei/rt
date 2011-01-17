@@ -4,6 +4,9 @@ require File.join("rt.rb")
 
 test_files = []
 
+options = []
+$: << File.join(".","test")
+
 while f = ARGV.pop do
   if f =~ /\*/ 
     Dir.glob(f) do |test_file|
@@ -16,10 +19,10 @@ while f = ARGV.pop do
     test_name = nil
     %w[UnitTest ActiveSupportTestCase Shoulda].each do |matcher|
       klass = eval("Rt::Matchers::#{matcher}") 
-      break if test_name = klass.test_name(line) 
+      break if test_name = klass.test_name(line)
     end
-    if test_name
-      ARGV << "--name=/#{test_name}/"
+    if !test_name.nil?
+      options << "--name=/#{test_name.strip}/"
       test_files << file_name
     else 
       STDERR.puts "Can not find test in file #{file_name} line #{line_num}"
@@ -33,7 +36,6 @@ while f = ARGV.pop do
     test_files << f
   end
 end
-ARGV << "-Itest"
-STDOUT.puts "run test #{ARGV.join(' ')} #{test_files.join(', ')}"
+options.each {|o| ARGV << o }
 test_files.each {|f| load f}
 

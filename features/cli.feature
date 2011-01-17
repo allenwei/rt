@@ -15,22 +15,22 @@ Feature: Runner
       """
 
   Scenario: Run single file from command-line 
-    When I run "bundle exec rt test/test_one.rb" 
+    When I successfully run "bundle exec rt test/test_one.rb" 
     Then the stdout should contain "1 tests, 1 assertions, 0 failures, 0 errors"
     And the exit status should be 0 
 
   Scenario: Run two file from command-line 
-    When I run "bundle exec rt test/test_one.rb test/test_two.rb" 
+    When I successfully run "bundle exec rt test/test_one.rb test/test_two.rb" 
     Then the stdout should contain "2 tests, 2 assertions, 0 failures, 0 errors"
     And the exit status should be 0 
 
   Scenario: Run tests in folder
-    When I run "bundle exec rt test" 
+    When I successfully run "bundle exec rt test" 
     Then the stdout should contain "2 tests, 2 assertions, 0 failures, 0 errors"
     And the exit status should be 0 
 
   Scenario: Run tests with regular expression
-    When I run "bundle exec rt **/*_one.rb" 
+    When I successfully run "bundle exec rt **/*_one.rb" 
     Then the stdout should contain "1 tests, 1 assertions, 0 failures, 0 errors"
     And the exit status should be 0 
 
