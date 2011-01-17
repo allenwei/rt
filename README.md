@@ -4,9 +4,10 @@ rt
 A unit test runner 
 
 Support run by file number 
-Support run by file path pattern 
-Support run by file line number 
 
+Support run by file path pattern 
+
+Support run by file line number 
 
 Support different format (In development)
 
@@ -23,6 +24,8 @@ Usage
   `rt test_file.rb`
 
   `rt test/**/test_*.rb`  
+
+  `rt test/unit/`  
 
 Support specify line number:
 
